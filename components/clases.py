@@ -1,149 +1,147 @@
+#El programa debe devolver como resultado la respuesta a las siguientes consultas:
+#1- Qué continente tiene mayor población? y cuál es el número?
+#2- Suponiendo que la población habla en proporciones iguales cada idioma del país. Qué idioma es el más hablado del mundo y cuál por cada continente?
+#3- Qué moneda se usa en más países y cuántos países son?
+
+
 from leer_json import *
-import json
 from collections import Counter
 
-# Importo la clase Counter del módulo collections
-# La lista que pasemos a Counter() sera el diccionario donde cada key corresponde a cada uno de los números de lista y cada value, a la cantidad de veces que se repite en ella.
+# Importo la clase Counter del modulo collections
+# La lista que pasemos a Counter() sera el diccionario donde cada key corresponde a cada uno de los numeros de lista y cada value, a la cantidad de veces que se repite en ella.
 
-# Clase Continente:
-
+# Importo las funciones que me traen los diccionarios con los datos de los paises.
 paises = cargar_paises_continentes()
 idiomas = cargar_idioma_pais()
 monedas = cargar_moneda_pais()
 habitantes = cargar_poblacion_pais()
 
+# Clase Continente:
 
 class Continente:
     def __init__(self, nombre):
         self.nombre = nombre
         if nombre == None:
-            nombre == 1
+            self.nombre = "Pais Invalido"
         self.paises = []
 
-    def get_paisesxContinente(self, paises):
-        self.paises = paises
+    def get_nombre (self):
+        return self.nombre
 
-    
-    # def set_pais(self, pais):
-    #     self.paises.append(pais)
+    def get_paises(self, paises):
+        return self.paises
 
-    # def get_poblacion(self):
-    #     poblacion = 0
-    #     for pais in self.paises:
-    #         poblacion += pais.obtener_poblacion()
-    #     return poblacion
+    def append_pais(self, pais):
+        self.paises.append(pais)
 
-# Clase País: 
+    def get_poblacion(self):
+        poblacion = 0
+        for pais in self.paises:
+            poblacion += pais.obtener_poblacion()
+        return poblacion
 
-class Pais(Continente):
-    def __init__(self, nombre, idiomas, moneda, poblacion):
+# Clase Pais:
+
+class Pais():
+    def __init__(self, nombre):
         self.nombre = nombre
-        self.idiomas = idiomas
-        self.moneda = moneda
-        self.poblacion = poblacion
+        self.idiomas = []
+        self.moneda = None
+        self.poblacion = 0
+
+        def set_habitantes(self, habitantes):
+            self.poblacion = habitantes
+
+        def get_nombre(self):
+            return self.nombre
+
+        def get_idiomas(self):
+            return self.idiomas
+
+        def get_moneda(self):
+            return self.moneda
+
+        def get_habitantes(self):
+            return self.habitantes
 
 
-        # def get_idiomasxPaises(self, idiomas):
-        #     self.pais = self.nombre
-        
-
-    # def get_idiomas(self):
-    #     return self.idiomas
-
-    # def get_moneda(self):
-    #     return self.moneda
-
-    # def get_poblacion(self):
-    #     return self.poblacion
+# Filtrar PAISES por CONTINENTES - YA NO VA
+# listaEuropa = []
+# listaAmerica = []
+# listaAsia = []
+# listaOceania = []
+# listaAfrica = []
+# listaAntarctica = []
 
 
-# Filtrar PAISES por CONTINENTES
 
-listaEuropa = []
-listaAmerica = []
-listaAsia = []
-listaOceania = []
-listaAfrica = []
-listaAntarctica = []
+# - Instancia objeto continente
+obj_europa = Continente("Europe")
+obj_n_america = Continente("North America")
+obj_s_america = Continente("South America")
+obj_asia = Continente("Asia")
+obj_oceania = Continente("Oceania")
+obj_africa = Continente("Africa")
+obj_antarctica = Continente("Antarctica")
+
+lst_obj_continentes = [obj_europa, obj_n_america, obj_s_america, obj_asia, obj_oceania, obj_africa, obj_antarctica]
+
+
+
 
 # ------------------------------ Paises por Continente ------------------------------
 
 for pais in paises:
-
+    obj_pais = Pais(pais["country"])
     if pais["continent"] == "Europe":
-        listaEuropa.append(pais)
-    if pais["continent"] == "South America" or pais["continent"] == "North America":
-        listaAmerica.append(pais)
+        obj_europa.append(obj_pais)
+    if pais["continent"] == "North America":
+        obj_n_america.append(pais)
+    if pais["continent"] == "South America":
+        obj_s_america.append(pais)
     if pais["continent"] == "Asia":
-        listaAsia.append(pais)
+        obj_asia.append(pais)
     if pais["continent"] == "Oceania":
-        listaOceania.append(pais)
+        obj_oceania.append(pais)
     if pais["continent"] == "Africa":
-        listaAfrica.append(pais)
+        obj_africa.append(pais)
     if pais["continent"] == "Antarctica":
-        listaAntarctica.append(pais)
+        obj_antarctica.append(pais)
 
-# Recorre cada lista de continentes e imprime cada uno
-
-# ----------------------- Europa -----------------------
-
-# # print(listaEuropa)
-# for europe in listaEuropa:
-#     print(europe)                                                                                               
-
-# ----------------------- America -----------------------
-
-# # print(listaAmerica)
-# for america in listaAmerica:
-#     print(america)
-
-# ----------------------- Asia -----------------------
-
-# # print(listaAsia)
-# for asia in listaAsia:
-#     print(asia)
-
-# ----------------------- Oceania -----------------------
-
-# # print(listaOceania)
-# for oceania in listaOceania:
-#     print(oceania)
-
-# ----------------------- Africa -----------------------
-
-# # print(listaAfrica)
-# for africa in listaAfrica:
-#     print(africa)
-
-# ----------------------- Antartida -----------------------
-
-# # print(listaAntarctica)
-# for antarctica in listaAntarctica:
-#     print(antarctica)
 
 
 # ------------------------------ Habitantes ------------------------------
-
-habitantesPaisesEuropa = []
-habitantesPaisesAmerica = []
-habitantesPaisesAsia = []
-habitantesPaisesOceania = []
-habitantesPaisesAfrica = []
-habitantesPaisesAntarctica = []
-
 for habitante in habitantes:
-    if habitante["country"] in [d["country"] for d in listaEuropa] :
-        habitantesPaisesEuropa.append(habitante["population"])
-    if habitante["country"] in [d["country"] for d in listaAmerica] :
-        habitantesPaisesAmerica.append(habitante["population"])
-    if habitante["country"] in [d["country"] for d in listaAsia] :
-        habitantesPaisesAsia.append(habitante["population"])
-    if habitante["country"] in [d["country"] for d in listaOceania] :
-        habitantesPaisesOceania.append(habitante["population"])
-    if habitante["country"] in [d["country"] for d in listaAfrica] :
-        habitantesPaisesAfrica.append(habitante["population"])
-    if habitante["country"] in [d["country"] for d in listaAntarctica] :
-        habitantesPaisesAntarctica.append(habitante["population"])
+    for obj_continente in lst_obj_continentes :
+        lst_obj_paises = obj_continente.get_paises()
+        for obj_pais in lst_obj_paises :
+            nombre_pais = obj_pais.get_nombre()
+            if habitante["country"] == nombre_pais:
+                obj_pais.set_habitantes(habitante["population"])
+
+
+# habitantesPaisesEuropa = []
+# habitantesPaisesAmerica = []
+# habitantesPaisesAsia = []
+# habitantesPaisesOceania = []
+# habitantesPaisesAfrica = []
+# habitantesPaisesAntarctica = []
+
+# for habitante in habitantes:
+#     if habitante["country"] in [d["country"] for d in obj_europa] :
+#         habitantesPaisesEuropa.append(habitante["population"])
+#     if habitante["country"] in [d["country"] for d in obj_n_america] :
+#         habitantesPaisesAmerica.append(habitante["population"])
+#     if habitante["country"] in [d["country"] for d in obj_s_america] :
+#         habitantesPaisesAmerica.append(habitante["population"])
+#     if habitante["country"] in [d["country"] for d in obj_asia] :
+#         habitantesPaisesAsia.append(habitante["population"])
+#     if habitante["country"] in [d["country"] for d in obj_oceania] :
+#         habitantesPaisesOceania.append(habitante["population"])
+#     if habitante["country"] in [d["country"] for d in obj_africa] :
+#         habitantesPaisesAfrica.append(habitante["population"])
+#     if habitante["country"] in [d["country"] for d in obj_antarctica] :
+#         habitantesPaisesAntarctica.append(habitante["population"])
 
 nroHabitantesEuropa = 0
 nroHabitantesAmerica = 0
@@ -196,31 +194,28 @@ listaArrayIdiomasAfrica = []
 listaArrayIdiomasAntarctica = []
 
 for idioma in idiomas:
-    
-    if idioma["country"] in [d["country"] for d in listaEuropa] :
+
+    if idioma["country"] in [d["country"] for d in obj_europa] :
         listaArrayIdiomasEuropa.append(idioma["languages"])
-    
-    if idioma["country"] in [d["country"] for d in listaAmerica] :
+
+    if idioma["country"] in [d["country"] for d in obj_n_america] :
         listaArrayIdiomasAmerica.append(idioma["languages"])
-    
-    if idioma["country"] in [d["country"] for d in listaAsia] :
+
+    if idioma["country"] in [d["country"] for d in obj_s_america] :
+        listaArrayIdiomasAmerica.append(idioma["languages"])
+
+    if idioma["country"] in [d["country"] for d in obj_asia] :
         listaArrayIdiomasAsia.append(idioma["languages"])
-    
-    if idioma["country"] in [d["country"] for d in listaOceania] :
+
+    if idioma["country"] in [d["country"] for d in obj_oceania] :
         listaArrayIdiomasOceania.append(idioma["languages"])
-    
-    if idioma["country"] in [d["country"] for d in listaAfrica] :
+
+    if idioma["country"] in [d["country"] for d in obj_africa] :
         listaArrayIdiomasAfrica.append(idioma["languages"])
-    
-    if idioma["country"] in [d["country"] for d in listaAntarctica] :
+
+    if idioma["country"] in [d["country"] for d in obj_antarctica] :
         listaArrayIdiomasAntarctica.append(idioma["languages"])
 
-# print(listaArrayIdiomasEuropa)
-# print(listaArrayIdiomasAmerica)
-# print(listaArrayIdiomasAsia)
-# print(listaArrayIdiomasOceania)
-# print(listaArrayIdiomasAfrica)
-# print(listaArrayIdiomasAntarctica)
 
 idiomasEuropa = []
 idiomasAmerica = []
@@ -236,9 +231,8 @@ for filaIdiomaEuropa in listaArrayIdiomasEuropa:
     for idioma in filaIdiomaEuropa:
         idiomasEuropa.append(idioma)
         idiomasDelMundo.append(idioma)
-        
-# print(Counter(idiomasEuropa))
-print(f"El idioma que más se habla en Europa es el Alemán, los paises que lo hablan son en total: %s" % Counter(idiomasEuropa).get('German'))
+
+print(f"El idioma que mas se habla en Europa es el Aleman, los paises que lo hablan son en total: %s" % Counter(idiomasEuropa).get('German'))
 
 # ------------------------------ Idiomas America ------------------------------
 
@@ -248,7 +242,7 @@ for filaIdiomaAmerica in listaArrayIdiomasAmerica:
         idiomasDelMundo.append(idioma)
 
 # print(Counter(idiomasAmerica))
-print(f"El idioma que más se habla en América es el Español, los paises que lo hablan son en total: %s" % Counter(idiomasAmerica).get('Spanish'))
+print(f"El idioma que mas se habla en America es el Español, los paises que lo hablan son en total: %s" % Counter(idiomasAmerica).get('Spanish'))
 
 # ------------------------------ Idiomas Asia ------------------------------
 
@@ -258,7 +252,7 @@ for filaIdiomaAsia in listaArrayIdiomasAsia:
         idiomasDelMundo.append(idioma)
 
 # print(Counter(idiomasAsia))
-print(f"El idioma que más se habla en Asia es el Árabe, los paises que lo hablan son en total: %s" % Counter(idiomasAsia).get('Arabic'))
+print(f"El idioma que mas se habla en Asia es el arabe, los paises que lo hablan son en total: %s" % Counter(idiomasAsia).get('Arabic'))
 
 # ------------------------------ Idiomas Oceania ------------------------------
 
@@ -268,7 +262,7 @@ for filaIdiomaOceania in listaArrayIdiomasOceania:
         idiomasDelMundo.append(idioma)
 
 # print(Counter(idiomasOceania))
-print(f"El idioma que más se habla en Oceania es el Inglés, los paises que lo hablan son en total: %s" % Counter(idiomasOceania).get('English'))
+print(f"El idioma que mas se habla en Oceania es el Ingles, los paises que lo hablan son en total: %s" % Counter(idiomasOceania).get('English'))
 
 # ------------------------------ Idiomas Africa ------------------------------
 
@@ -278,7 +272,7 @@ for filaIdiomaAfrica in listaArrayIdiomasAfrica:
         idiomasDelMundo.append(idioma)
 
 # print(Counter(idiomasOceania))
-print(f"El idioma que más se habla en Africa es el Ful, los paises que lo hablan son en total: %s" % Counter(idiomasAfrica).get('Ful'))
+print(f"El idioma que mas se habla en Africa es el Ful, los paises que lo hablan son en total: %s" % Counter(idiomasAfrica).get('Ful'))
 
 # ------------------------------ Idiomas Antarctica ------------------------------
 
@@ -288,9 +282,9 @@ for filaIdiomaAntarctica in listaArrayIdiomasAntarctica:
         idiomasDelMundo.append(idioma)
 
 # print(Counter(idiomasAntarctica))
-print(f"El idioma que más se habla en la Antartida es el idioma Pingüino")
+print(f"El idioma que mas se habla en la Antartida es el idioma Pingüino")
 
-print(f"El idioma que más se habla en el Mundo es el Inglés, los paises que lo hablan son en total: %s" % Counter(idiomasDelMundo).get('English'))
+print(f"El idioma que mas se habla en el Mundo es el Ingles, los paises que lo hablan son en total: %s" % Counter(idiomasDelMundo).get('English'))
 
 # ------------------------------ Monedas ------------------------------
 
@@ -302,29 +296,30 @@ monedasAfrica = []
 monedasAntarctica = []
 
 for moneda in monedas:
-    if moneda["country"] in [d["country"] for d in listaEuropa] :
+    if moneda["country"] in [d["country"] for d in obj_europa] :
         monedasEuropa.append(moneda["currency_code"])
-    if moneda["country"] in [d["country"] for d in listaAmerica] :
+    if moneda["country"] in [d["country"] for d in obj_n_america] :
         monedasAmerica.append(moneda["currency_code"])
-    if moneda["country"] in [d["country"] for d in listaAsia] :
+    if moneda["country"] in [d["country"] for d in obj_s_america] :
+        monedasAmerica.append(moneda["currency_code"])
+    if moneda["country"] in [d["country"] for d in obj_asia] :
         monedasAsia.append(moneda["currency_code"])
-    if moneda["country"] in [d["country"] for d in listaOceania] :
+    if moneda["country"] in [d["country"] for d in obj_oceania] :
         monedasOceania.append(moneda["currency_code"])
-    if moneda["country"] in [d["country"] for d in listaAfrica] :
+    if moneda["country"] in [d["country"] for d in obj_africa]:
         monedasAfrica.append(moneda["currency_code"])
-    if moneda["country"] in [d["country"] for d in listaAntarctica] :
+    if moneda["country"] in [d["country"] for d in obj_antarctica] :
         monedasAntarctica.append(moneda["currency_code"])
 
 
 # ------------------------------ Monedas Europa ------------------------------
 
-        
-# print(Counter(monedasEuropa))
-print(f"La moneda que se usa en más paises de Europa es el EUR. Y la cantidad de paises que la usan es: %s" % Counter(monedasEuropa).get("EUR"))
+
+print(f"La moneda que se usa en mas paises de Europa es el EUR. Y la cantidad de paises que la usan es: %s" % Counter(monedasEuropa).get("EUR"))
 
 # ------------------------------ Monedas America ------------------------------
-# print(Counter(monedasAmerica))
-print(f"La moneda que se usa en más paises de America es el XCD. Y la cantidad de paises que la usan es: %s" % Counter(monedasAmerica).get('XCD'))
+
+print(f"La moneda que se usa en mas paises de America es el XCD. Y la cantidad de paises que la usan es: %s" % Counter(monedasAmerica).get('XCD'))
 
 # ------------------------------ Monedas Asia ------------------------------
 # print(Counter(monedasAsia))
@@ -332,11 +327,11 @@ print(f"En Asia cada pais usa su propia moneda")
 
 # ------------------------------ Monedas Oceania ------------------------------
 # print(Counter(monedasOceania))
-print(f"La moneda que se usa en más paises de Oceania es el USD. Y la cantidad de paises que la usan es: %s" % Counter(monedasOceania).get('USD'))
+print(f"La moneda que se usa en mas paises de Oceania es el USD. Y la cantidad de paises que la usan es: %s" % Counter(monedasOceania).get('USD'))
 
 # ------------------------------ Monedas Africa ------------------------------
 # print(Counter(monedasAfrica))
-print(f"La moneda que se usa en más paises de Africa es el XOF. Y la cantidad de paises que la usan es: %s" % Counter(monedasAfrica).get('XOF'))
+print(f"La moneda que se usa en mas paises de Africa es el XOF. Y la cantidad de paises que la usan es: %s" % Counter(monedasAfrica).get('XOF'))
 
 # ------------------------------ Monedas Antartida ------------------------------
 # print(Counter(monedasAntarctica))
