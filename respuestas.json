@@ -1,0 +1,26 @@
+{
+    "respuesta1":
+        {
+            "mayor_poblacion": "Asia",
+            "numero": 4502399276
+        },
+    "respuesta2":
+        {
+            "idioma_mas_hablado":
+                {
+                    "World": "English",
+                    "Asia": "Arabic",
+                    "Africa": "Ful",
+                    "Europe": "German",
+                    "North America": "English",
+                    "Antarctica": "No posee idioma oficial",
+                    "Oceania": "English",
+                    "South America": "Spanish"
+                }
+        },
+    "respuesta3":
+        {
+            "moneda_mas_usada_por_paises": "EUR",
+            "cantidad_de_paises": 28
+        }
+}

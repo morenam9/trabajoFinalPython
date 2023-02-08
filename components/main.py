@@ -1,23 +1,19 @@
-#El programa debe devolver como resultado la respuesta a las siguientes consultas:
-#1- Qué continente tiene mayor población? y cuál es el número?
-#2- Suponiendo que la población habla en proporciones iguales cada idioma del país. Qué idioma es el más hablado del mundo y cuál por cada continente?
-#3- Qué moneda se usa en más países y cuántos países son?
+# Curso Básico de Python – Clase 10 – TP Final
+
+# Importo todo lo que requiero para el programa: modulos, clases, etc.
 from clases import Continente
 from clases import Pais
 from leer_json import *
+from collections import Counter
 import json
 
-# Importo la clase Counter del modulo collections
-# La lista que pasemos a Counter() sera el diccionario donde cada key corresponde a cada uno de los numeros de lista y cada value, a la cantidad de veces que se repite en ella.
-
-# Importo las funciones que me traen los diccionarios con los datos de los paises.
+# Importo y asigno los diccionarios con informacion de paises y continentes a las respectivas variables.
 paises = cargar_paises_continentes()
 idiomas = cargar_idioma_pais()
 monedas = cargar_moneda_pais()
 habitantes = cargar_poblacion_pais()
 
 # - Instancia objeto continente
-
 obj_europa = Continente("Europe")
 obj_n_america = Continente("North America")
 obj_s_america = Continente("South America")
@@ -25,12 +21,10 @@ obj_asia = Continente("Asia")
 obj_oceania = Continente("Oceania")
 obj_africa = Continente("Africa")
 obj_antarctica = Continente("Antarctica")
-        
 lst_obj_continentes = [obj_europa, obj_n_america, obj_s_america, obj_asia, obj_oceania, obj_africa, obj_antarctica]
 
 
-
-# ------------------------------ Paises por Continente ------------------------------
+# ------------------------------ Obtengo Paises por Continente ------------------------------
 
 for pais in paises:
     obj_pais = Pais(pais["country"])
@@ -50,7 +44,7 @@ for pais in paises:
         obj_antarctica.append_pais(obj_pais)
 
 
-# ------------------------------ Habitantes ------------------------------
+# ------------------------------ Obtengo Habitantes Por Paises ------------------------------
 for habitante in habitantes:
     for obj_continente in lst_obj_continentes :
         lst_obj_paises = obj_continente.get_paises()
@@ -59,14 +53,18 @@ for habitante in habitantes:
             if habitante["country"] == nombre_pais:
                 obj_pais.set_habitantes(habitante["population"])
 
-poblacionNAmerica = obj_n_america.get_poblacion()
-poblacionSAmerica = obj_s_america.get_poblacion()
-poblacionEuropa = obj_europa.get_poblacion()
-nombreAsia = obj_asia.get_nombre_continente()
-poblacionAsia = obj_asia.get_poblacion()
-poblacionAfrica = obj_africa.get_poblacion()
-poblacionOceania = obj_oceania.get_poblacion()
-poblacionAntarctica = obj_antarctica.get_poblacion()
+
+# - obtengo la poblacion por continente
+poblacion_n_america = obj_n_america.get_poblacion()
+poblacion_s_america = obj_s_america.get_poblacion()
+poblacion_europa = obj_europa.get_poblacion()
+poblacion_asia = obj_asia.get_poblacion()
+poblacion_africa = obj_africa.get_poblacion()
+poblacion_oceania = obj_oceania.get_poblacion()
+poblacion_antarctica = obj_antarctica.get_poblacion()
+
+# Obtengo nombre continente con mayor poblacion
+nombre_asia = obj_asia.get_nombre_continente()
 
 # ------------------------------ Monedas ------------------------------
 
@@ -78,6 +76,27 @@ for moneda in monedas:
             if moneda["country"] == nombre_pais:
                 obj_pais.set_monedas(moneda["currency_code"])
 
+# - Instancia objeto continente para obtener las monedas por continente.
+moneda_n_america = obj_n_america.get_moneda()
+moneda_s_america = obj_s_america.get_moneda()
+moneda_europa = obj_europa.get_moneda()
+moneda_asia = obj_asia.get_moneda()
+moneda_africa = obj_africa.get_moneda()
+moneda_oceania = obj_oceania.get_moneda()
+moneda_antarctica = obj_antarctica.get_moneda()
+
+
+# listo las monedas por continente para obtener la que mas se utiliza por paises.
+
+lst_moneda_mas_usada = [moneda_n_america, moneda_s_america, moneda_europa, moneda_asia, moneda_africa, moneda_oceania, moneda_antarctica]
+moneda_mas_usada_mundo = []
+for moneda in lst_moneda_mas_usada:
+    for item in moneda:
+        moneda_mas_usada_mundo.append(item)
+conteo_moneda = Counter(moneda_mas_usada_mundo)
+conteo_ordenado_moneda = dict(sorted(conteo_moneda.items(), key=lambda item:item[1], reverse=True))
+moneda_mundo = next(iter(conteo_ordenado_moneda))
+paises_usan_moneda = Counter(moneda_mas_usada_mundo).get(moneda_mundo)
 # ------------------------------ Idiomas ------------------------------
 
 for idioma in idiomas:
@@ -88,47 +107,48 @@ for idioma in idiomas:
             if idioma["country"] == nombre_pais:
                 obj_pais.set_idiomas(idioma["languages"])
 
+# - Instancia objeto continente para obtener los idiomas por continente.
+idioma_n_america = obj_n_america.get_idioma()
+idioma_s_america = obj_s_america.get_idioma()
+idioma_europa = obj_europa.get_idioma()
+idioma_asia = obj_asia.get_idioma()
+idioma_africa = obj_africa.get_idioma()
+idioma_oceania = obj_oceania.get_idioma()
+idioma_antarctica = obj_antarctica.get_idioma()
 
-idiomaNAmerica = obj_n_america.get_idioma()
-idiomaSAmerica = obj_s_america.get_idioma()
-idiomaEuropa = obj_europa.get_idioma()
-idiomaAsia = obj_asia.get_idioma()
-idiomaAfrica = obj_africa.get_idioma()
-idiomaOceania = obj_oceania.get_idioma()
-idiomaAntarctica = obj_antarctica.get_idioma()
+# listo los idiomas por continente para obtener el que mas se habla  y luego retorno el mas hablado en todo el mundo.
 
-idioma_mundo = Continente("").get_idiomaMundo()
+idiomas_mas_hablados = [idioma_s_america, idioma_n_america, idioma_europa, idioma_asia, idioma_africa, idioma_oceania, idioma_antarctica]
 
-monedaNAmerica = obj_n_america.get_moneda()
-monedaSAmerica = obj_s_america.get_moneda()
-monedaEuropa = obj_europa.get_moneda()
-monedaAsia = obj_asia.get_moneda()
-monedaAfrica = obj_africa.get_moneda()
-monedaOceania = obj_oceania.get_moneda()
-monedaAntarctica = obj_antarctica.get_moneda()
+conteo_idioma = Counter(idiomas_mas_hablados)
 
-monedaMundo = Continente("").get_monedaMundo()
+conteo_ordenado_idioma = dict(sorted(conteo_idioma.items(), key=lambda item:item[1],
+reverse=True))
 
+idioma_mundo = next(iter(conteo_ordenado_idioma))
+
+
+# ------------------------------ Creacion de archivo JSON ------------------------------
 data = {
     "respuesta1": {
-        "mayor_poblacion": nombreAsia,
-        "numero": poblacionAsia
+        "mayor_poblacion": nombre_asia,
+        "numero": poblacion_asia
     },
     "respuesta2": {
         "idioma_mas_hablado": {
             "World": idioma_mundo,
-            "Asia": idiomaAsia,
-            "Africa": idiomaAfrica,
-            "Europe": idiomaEuropa,
-            "North America": idiomaNAmerica,
-            "Antarctica": idiomaAntarctica,
-            "Oceania": idiomaOceania,
-            "South America": idiomaSAmerica,
+            "Asia": idioma_asia,
+            "Africa": idioma_africa,
+            "Europe": idioma_europa,
+            "North America": idioma_n_america,
+            "Antarctica": idioma_antarctica,
+            "Oceania": idioma_oceania,
+            "South America": idioma_s_america
         }
     },
     "respuesta3": {
-        "moneda_mas_usada": "Falta obtener codigo moneda de EUR",
-        "cant_paises": monedaMundo
+        "moneda_mas_usada_por_paises": moneda_mundo,
+        "cantidad_de_paises": paises_usan_moneda
     }
 }
 

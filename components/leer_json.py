@@ -1,5 +1,5 @@
 import json
-
+# Creacion de funciones a partir de archivos json
 def cargar_paises_continentes():
 
     with open('json/country-by-continent.json') as file:
@@ -23,14 +23,3 @@ def cargar_poblacion_pais():
         lst_pais_poblacion = json.load(file)
         return lst_pais_poblacion
 
-
-
-
-
-
-
-
-# lst_pais_continete[0]['provincias'] = {'Cordoba':'Cordoba'} 
-
-# with open('tpfinal\country-by-continent_provincias.json', 'w') as file:  
-#     json.dump(lst_pais_continete, file) 
